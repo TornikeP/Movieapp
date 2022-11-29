@@ -170,12 +170,48 @@ function remove_LS (id) {
     localStorage.setItem('movie-id', JSON.stringify(movie_ids.filter(e => e !== id)))
 }
 
+// fetch_favorite_movies()
+// async function fetch_favorite_movies() {
+//     main_grid.innerHTML = ''
+//     const movies_LS = await get_LS()
+//     const movies = []
+//     for(let i = 0; i <= movies_LS.length -1;) {
+//         const movie_id = movies_LS[i]
+//         let movie = await get_movie_by_id(movie_id)
+//         add_favorites_to_dom_from_LS(movie)
+//         movies.push(movie)
+//     }
+// }
+
+// function add_favorites_to_dom_from_LS(movie_data) {
+// main_grid.innerHTML += `
+//                 <div class="card" data-id="${movie_data.id}">
+//                     <div class="img">
+//                         <img src="${image_path + movie_data.poster_path}">
+//                     </div>
+//                     <div class="info">
+//                         <h2>${movie_data.title}</h2>
+//                         <div class="single-info">
+//                             <span>Rate:</span>
+//                             <span>${movie_data.vote_avarage}</span>
+//                         </div>
+//                         <div class="single-info">
+//                             <span>Release Date:</span>
+//                             <span>${movie_data.release_date}</span>
+//                         </div>
+//                     </div>
+//                 </div>
+// `
+// }
+
+
 fetch_favorite_movies()
-async function fetch_favorite_movies() {
+async function fetch_favorite_movies () {
     main_grid.innerHTML = ''
+
     const movies_LS = await get_LS()
     const movies = []
-    for(let i = 0; i <= movies_LS.length -1;) {
+    for(let i = 0; i <= movies_LS.length - 1; i++) {
         const movie_id = movies_LS[i]
         let movie = await get_movie_by_id(movie_id)
         add_favorites_to_dom_from_LS(movie)
@@ -183,7 +219,26 @@ async function fetch_favorite_movies() {
     }
 }
 
-
+function add_favorites_to_dom_from_LS (movie_data) {
+    main_grid.innerHTML += `
+        <div class="card" data-id="${movie_data.id}">
+            <div class="img">
+                <img src="${image_path + movie_data.poster_path}">
+            </div>
+            <div class="info">
+                <h2>${movie_data.title}</h2>
+                <div class="single-info">
+                    <span>Rate: </span>
+                    <span>${movie_data.vote_average} / 10</span>
+                </div>
+                <div class="single-info">
+                    <span>Release Date: </span>
+                    <span>${movie_data.release_date}</span>
+                </div>
+            </div>
+        </div>
+`
+}
 
 
 
