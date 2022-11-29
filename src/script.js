@@ -141,15 +141,49 @@ async function show_popup (card) {
 
 
     const heart_icon = popup_container.querySelector('.heart-icon')
-
     heart_icon.addEventListener('click', () => {
         if(heart_icon.classList.contains('change-color')) {
+            remove_LS(movie_id)
             heart_icon.classList.remove('change-color')
         } else {
+            add_to_LS(movie_id)
             heart_icon.classList.add('change-color')
         }
         fetch_favorite_movies()
+
     })
 }
+
+
+function get_LS () {
+    const movie_ids = JSON.parse(localStorage.getItem('movie-id'))
+    return movie_ids === null ? [] : movie_ids
+}
+
+    function add_to_LS (id) {
+        const movie_ids = get_LS()
+        localStorage.setItem('movie-id', JSON.stringify([...movie_ids, id]))
+
+}
+function remove_LS (id) {
+    const movie_ids = get_LS()
+    localStorage.setItem('movie-id', JSON.stringify(movie_ids.filter(e => e !== id)))
+}
+
+fetch_favorite_movies()
+async function fetch_favorite_movies() {
+    main_grid.innerHTML = ''
+    const movies_LS = await get_LS()
+    const movies = []
+    for(let i = 0; i <= movies_LS.length -1;) {
+        const movie_id = movies_LS[i]
+        let movie = await get_movie_by_id(movie_id)
+        add_favorites_to_dom_from_LS(movie)
+        movies.push(movie)
+    }
+}
+
+
+
 
 
